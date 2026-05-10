@@ -3,9 +3,9 @@ using namespace std;
 
 struct film
 {
-    char judul[100], genre[100], tanggal[100];
-    int harga;
-    int durasi;
+    char judul[100], genre[10], tanggal[50], kursi[100];
+    int ID, harga, durasi;
+    string jadwal[3];
     film* next;
 };
 
