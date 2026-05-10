@@ -63,3 +63,9 @@ void loadFile(){
     delete filmBaru; //
     fclose(f);
 }
+
+//fungsi biar kalo nyari judul ga kapital bisa terdeteksi
+void toLowerStr(char *str){
+    for (int i = 0; str[i]; i++)
+        str[i] = tolower((unsigned char)str[i]);   
+}
