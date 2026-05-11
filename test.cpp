@@ -263,3 +263,73 @@ void lihatRiwayatPemesanan() {
         temp = temp->next;
     }
      cout << "----------------------------------------------------------------------------------------------------------" << endl;
+
+    // hitung total pendapatan
+    int totalPendapatan = 0;
+    int totalTiketTerjual = 0;
+    temp = headRiwayat;
+    while (temp != NULL) {
+        totalPendapatan += temp->totalHarga;
+        totalTiketTerjual += temp->jumlahTiket;
+        temp = temp->next;
+    }
+
+    cout << "\nTotal Pemesanan : " << (no - 1) << " kali " << endl;
+    cout << "Total Tiket Terjual : " << totalTiketTerjual << " tiket" << endl;
+    cout << "Total Pendapatan : Rp " << totalPendapatan << endl;
+
+    // Load Riwayat
+    void simpanRiwayatKeFile() {
+    FILE *f = fopen("riwayat.txt", "w");
+    if (f == NULL) {
+        cout << " Gagal Menyimpan Riwayat!! " << endl;
+        return;
+    }
+
+    pemesanan* temp = headRiwayat;
+    while (temp != NULL) {
+        fprintf(f, "%s|%s|%s|%s|%d\n",
+                temp->namaPemesan,
+                temp->judulFilm,
+                temp->tanggalTayang,
+                temp->jamTayang,
+                temp->totalHarga);
+        temp = temp->next;
+    }
+
+fclose(f);
+    }
+
+    void loadRiwayatDariFile() {
+        FILE *f = fopen("riwayat.txt", "r");
+        if (f == NULL) return;
+
+        pemesanan *tail = NULL;
+
+        while (true) {
+            pemesanan* pesananBaru = new pemesanan;
+            if (fscanf(f, "%[^|]|%[^|]|%[^|]|%[^|]|%d|%d|%[^\n]\n",
+                    pesananBaru->namaPemesan,
+                    pesananBaru->judulFilm,
+                    pesananBaru->tanggalTayang,
+                    pesananBaru->jamTayang,
+                    &pesananBaru->totalHarga) != 5) 
+            if (result != 7) {
+            delete pesananBaru;
+            break;
+        }
+        
+        pesananBaru->jamTayang = string(jamTayangTemp);
+        pesananBaru->next = NULL;
+        
+        if (headRiwayat == NULL) {
+            headRiwayat = pesananBaru;
+            tail = pesananBaru;
+        } else {
+            tail->next = pesananBaru;
+            tail = pesananBaru;
+        }
+    }
+    fclose(f);
+}
+
