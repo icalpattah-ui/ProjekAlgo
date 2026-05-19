@@ -70,6 +70,23 @@ void toLowerStr(char *str){
         str[i] = tolower((unsigned char)str[i]);   
 }
 
+void keluar(){
+    char pilih;
+
+    cout << " Apakah Anda yakin ingin keluar? (y/n): ";
+    cin >> pilih;
+
+    if (pilih == 'y' || pilih == 'Y')
+    {
+        simpanFile();
+        cout << "Terima kasih telah memesan tiket, datang kembali" << endl;
+        exit(0);
+    } else {
+        cout << "Kembali ke menu utama" << endl;
+    }
+}
+
+
 // pesan tiket
 void tampilkanDaftarFilm(){
     if(head == NULL){
@@ -354,8 +371,8 @@ int main(){
 
         switch (pilih)
         {
-        case constant expression:
-            /* code */
+        case 5:
+            keluar();
             break;
         
         default:
