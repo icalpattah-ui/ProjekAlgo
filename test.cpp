@@ -21,7 +21,7 @@ void simpanFile(){
     film *temp = head;
 
     while (temp != NULL){
-        fprintf(f, "%s|%s|%s|%d|%d",
+        fprintf(f, "%s|%s|%s|%d|%d\n",
             temp->judul,
             temp->genre,
             temp->tanggal,
@@ -41,12 +41,12 @@ void loadFile(){
     film *tail = NULL; // buat append & jaga urutan asli
     film *filmBaru = new film;
 
-    while (fscanf(f, "%[^|]|%[^|]|%[^|]|%d|%d",
+    while (fscanf(f, "%[^|]|%[^|]|%[^|]|%d|%d\n",
                     filmBaru->judul,
                     filmBaru->genre,
                     filmBaru->tanggal,
                     &filmBaru->harga,
-                    &filmBaru->durasi) == 6 )
+                    &filmBaru->durasi) == 5 )
     {
         //
         filmBaru->next = NULL;
@@ -89,6 +89,7 @@ void keluar(){
 
 // pesan tiket
 void tampilkanDaftarFilm(){
+    
     if(head == NULL){
         cout << "\nBelum ada film yang tersedia.";
         return;
@@ -366,13 +367,24 @@ int main(){
         cout << " 4. Riwayat Pemesanan                   " << endl;
         cout << " 5. Keluar                              " << endl;
         cout << "+========================================+" << endl;
-        cout << " Pilih menu (1-5): ";
+        cout << " Pilih menu : ";
         cin >> pilih;
 
+        
         switch (pilih)
         {
-        case 5:
-            keluar();
+            case 1: 
+            tampilkanDaftarFilm();
+                break;
+            case 2: 
+                break;
+            case 3: 
+            pesanTiket();
+                break;
+            case 4:
+            loadRiwayatDariFile();
+                break;
+            case 5: keluar();
             break;
         
         default:
