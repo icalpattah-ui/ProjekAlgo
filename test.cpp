@@ -77,11 +77,11 @@ void tampilkanDaftarFilm(){
         return;
     }
 
-    cout << "\n================================================" << endl;
-    cout << "             DAFTAR FILM YANG SEDANG TAYANG       " << endl;
-    cout << "==================================================" << endl;
-    cout << "| No | Judul Film         | Genre     | Tanggal   | Harga  | Durasi" << endl;
-    cout << "==================================================" << endl;
+    cout << "=====================================================================" << endl;
+    cout << "                    DAFTAR FILM YANG SEDANG TAYANG                   " << endl;
+    cout << "=====================================================================" << endl;
+    cout << "| No | Judul Film         | Genre     | Tanggal   | Harga  | Durasi  " << endl;
+    cout << "=====================================================================" << endl;
 
     film *temp = head;
     int no = 1;
@@ -333,3 +333,36 @@ fclose(f);
     fclose(f);
 }
 
+int main(){
+    loadFile(); //ngambil data film nya
+
+    int pilih;
+
+    do
+    {
+        cout << "+========================================+" << endl;
+        cout << "          LETS WATCH MOVIE TODAY        " << endl;
+        cout << "========================================" << endl;
+        cout << " 1. Tampilkan Film                         " << endl;
+        cout << " 2. Cari Film                           " << endl;
+        cout << " 3. Pesan Tiket                         " << endl;
+        cout << " 4. Riwayat Pemesanan                   " << endl;
+        cout << " 5. Keluar                              " << endl;
+        cout << "+========================================+" << endl;
+        cout << " Pilih menu (1-5): ";
+        cin >> pilih;
+
+        switch (pilih)
+        {
+        case constant expression:
+            /* code */
+            break;
+        
+        default:
+          cout << " Maaf, pilihan tidak ada silahkan masukkan pilihan yang benar" << endl;
+            break;
+        }
+    } while (pilih != 5);
+
+    return 0;
+}
