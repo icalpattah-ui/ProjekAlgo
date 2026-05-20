@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 struct film
@@ -88,27 +89,27 @@ void keluar(){
 
 
 // pesan tiket
-void tampilkanDaftarFilm(){
+void tampilFilm(){
     
     if(head == NULL){
-        cout << "\nBelum ada film yang tersedia.";
+        cout << "Maaf, sedang maintence belum ada film yang tersedia";
         return;
     }
 
-    cout << "=====================================================================" << endl;
-    cout << "                    DAFTAR FILM YANG SEDANG TAYANG                   " << endl;
-    cout << "=====================================================================" << endl;
-    cout << "| No | Judul Film         | Genre     | Tanggal   | Harga  | Durasi  " << endl;
-    cout << "=====================================================================" << endl;
-
-    film *temp = head;
-    int no = 1;
-    while(temp != NULL){
-       printf("| %-2d | %-30s | Rp %-6d |\n", no, temp->judul, temp->harga);
-        temp = temp->next;
-        no++;
-    }
-    cout << "==================================================" << endl;
+    cout << setfill('=') << setw(80) "" << endl;
+    cout << setfill(' ');
+    cout << "|" << setw(50) << right << "DAFTAR FILM YANG SEDANG TAYANG" << setw(27) << right << "|" << endl;
+	cout << setfill('=') << setw(80) << "" << endl;
+    cout << setfill(' ');
+    cout << "| " << left << setw(4)  << "No"
+         << "| " << setw(25) << "Judul Film"
+         << "| " << setw(8)  << "Genre"
+         << "| " << setw(12) << "Tanggal"
+         << "| " << setw(10) << "Harga"
+         << "| " << setw(7)  << "Durasi"
+         << "|" << endl;
+    cout << setfill('=') << setw(80) << "" << endl;
+    cout << setfill(' ');
 }
 \\ menacri film berdasarkan judul
 film* cariFilmByJudul(char judulCari[]) {
