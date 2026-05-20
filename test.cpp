@@ -87,6 +87,38 @@ void keluar(){
     }
 }
 
+void sortHargaAsc(){
+
+    if (head == NULL)
+    {
+        cout << "Maaf, film belum tersedia." << endl;
+        return;
+
+        bool swap;
+        film *ptr;
+
+        do
+        {
+            swap = false;
+            ptr = head;
+            while (ptr->next != NULL)
+            {
+                if (ptr->harga > ptr->next->harga)
+                {
+                    //tukar harganya
+                    int tempHarga = ptr->harga;
+                    ptr->harga = ptr->next->harga;
+                    ptr->next->harga = tempHarga;
+                    swap = true;
+                }
+                ptr = ptr->next;
+            }
+              
+        } while (swap);
+        
+    }
+    
+}
 
 // pesan tiket
 void tampilFilm(){
@@ -96,7 +128,7 @@ void tampilFilm(){
         return;
     }
 
-    cout << setfill('=') << setw(80) " " << endl;
+    cout << setfill('=') << setw(80) << "" << endl;
     cout << setfill(' ');
     cout << "|" << setw(50) << right << "DAFTAR FILM YANG SEDANG TAYANG" << setw(27) << right << "|" << endl;
 	cout << setfill('=') << setw(80) << "" << endl;
@@ -125,7 +157,8 @@ void tampilFilm(){
         temp = temp->next;
         no++;
     }
-    
+    cout << setfill('=') << setw(80) << "" << endl;
+    cout << setfill(' ');
 }
 \\ menacri film berdasarkan judul
 film* cariFilmByJudul(char judulCari[]) {
@@ -391,7 +424,7 @@ int main(){
         switch (pilih)
         {
             case 1: 
-            tampilkanDaftarFilm();
+            tampilFilm();
                 break;
             case 2: 
                 break;
