@@ -15,7 +15,7 @@ film *head = NULL;
 void simpanFile(){
     FILE *f = fopen("film.txt", "w");
     if (f == NULL){
-        cout << "File tidak bisa dibuka" << endl;
+    cout << "File tidak bisa dibuka" << endl;
         return;
     }
 
@@ -96,7 +96,7 @@ void tampilFilm(){
         return;
     }
 
-    cout << setfill('=') << setw(80) "" << endl;
+    cout << setfill('=') << setw(80) " " << endl;
     cout << setfill(' ');
     cout << "|" << setw(50) << right << "DAFTAR FILM YANG SEDANG TAYANG" << setw(27) << right << "|" << endl;
 	cout << setfill('=') << setw(80) << "" << endl;
@@ -110,6 +110,22 @@ void tampilFilm(){
          << "|" << endl;
     cout << setfill('=') << setw(80) << "" << endl;
     cout << setfill(' ');
+
+    film *temp = head;
+    int no = 1;
+    while (temp != NULL)
+    {
+        cout << "| " << left << setw(4)  << no
+            << "| " << setw(25) << temp->judul
+            << "| " << setw(8)  << temp->genre
+            << "| " << setw(12) << temp->tanggal
+            << "| " << setw(10) << temp->harga
+            << "| " << setw(7)  << temp->durasi
+            << "|" << endl;
+        temp = temp->next;
+        no++;
+    }
+    
 }
 \\ menacri film berdasarkan judul
 film* cariFilmByJudul(char judulCari[]) {
