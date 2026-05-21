@@ -174,6 +174,15 @@ void sortAbjad(){
     } while (swap);
 }
 
+void cariFilm(){
+    char cariJudul[100];
+
+    cout << "Masukkan judul film : ";
+    cin.ignore();
+    cin.getline(cariFilm, 100);
+
+}
+
 void tampilFilm(){
     
     if(head == NULL){
@@ -182,9 +191,9 @@ void tampilFilm(){
     }
 
     int daftarFilm;
-    cout << "+======== Urutkan menurut =========+" << endl;
-    cout << "-->> Termahal >>>" << endl;
-    cout << "<<< Termurah <<--" << endl;
+    cout << "+===== Urutkan menurut ======+" << endl;
+    cout << "1. -->> Termahal >>>" << endl;
+    cout << "2. <<< Termurah <<--" << endl;
     cout << "3. Judul Film (A-Z)" << endl;
     cout << "4. Tanpa urutan" << endl;
     cout << "Pilih : ";
@@ -200,6 +209,7 @@ void tampilFilm(){
         break;
     case 3:
         sortAbjad();
+        break;
     case 4:
         break;
     default:
@@ -238,29 +248,6 @@ void tampilFilm(){
     }
     cout << setfill('=') << setw(80) << "" << endl;
     cout << setfill(' ');
-}
-// menacri film berdasarkan judul
-film* cariFilmByJudul(char judulCari[]) {
-    film* temp = head;
-    char judulCariLower[100];
-
-    // ubah judulCari ke lowercase untuk pencarian 
-
-    char tempJudulLower[100];
-    strcpy(judulCariLower, judulCari);
-    toLowerStr(judulCariLower);
-
-
-    while (temp != NULL) {
-        strcpy(judulTemp, temp->judul);
-        toLowerStr(judulTemp);
-        
-        if (strcmp(judulTemp, judulCariLower) == 0) {
-            return temp;
-        }
-        temp = temp->next;
-    }
-    return NULL;
 }
 
 // menampilkan detail film
