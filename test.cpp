@@ -14,7 +14,7 @@ struct film
 film *head = NULL;
 
 void simpanFile(){
-    FILE *f = fopen("film.txt", "w");
+    FILE *f = fopen("film.txt", "r");
     if (f == NULL)
     {
         cout << "File tidak bisa dibuka" << endl;
@@ -174,13 +174,61 @@ void sortAbjad(){
     } while (swap);
 }
 
+void detailFilm(film* f){
+    cout << setfill('=') << setw(40) << "" << endl;
+    cout << setfill(' ');
+    cout << "|" << setw(20) << right << "DETAIL FILM" << setw(18) << right << "|" << endl;
+    cout << setfill('=') << setw(40) << "" << endl;
+    cout << setfill(' ');
+    cout << "Judul   : " << f->judul << endl;
+    cout << "Genre   : " << f->genre << endl;
+    cout << "Tanggal : " << f->tanggal << endl;
+    cout << "Harga   : Rp " << f->harga << endl;
+    cout << "Durasi  : " << f->durasi << " menit" << endl;
+    cout << "Jadwal  : ";
+    for(int i = 0; i < 3; i++){
+        if(!f->jadwal[i].empty())
+            cout << f->jadwal[i] << " ";
+    }
+    cout << endl;
+    cout << setfill('=') << setw(40) << "" << endl;
+    cout << setfill(' ');
+}
+
 void cariFilm(){
     char cariJudul[100];
 
     cout << "Masukkan judul film : ";
     cin.ignore();
-    cin.getline(cariFilm, 100);
+    cin.getline(cariJudul, 100);
 
+    film* temp = head;
+    bool found = false;
+
+    toLowerStr(cariJudul);
+
+    while (temp != NULL)
+    {
+        char judulTemp[100];
+        strcpy(judulTemp, temp->judul);
+        toLowerStr(judulTemp);
+
+        if (strcmp(judulTemp, cariJudul) == 0)
+        {
+            found = true;
+            break;
+        }
+        temp = temp->next;
+    }
+    
+    if (found)
+    {
+        cout << "Film ditemukan!" << endl;
+        detailFilm(temp);
+
+    } else {
+        cout << "Sorry, film " << cariJudul << " tidak ditemukan." << endl;
+    }
 }
 
 void tampilFilm(){
@@ -248,21 +296,6 @@ void tampilFilm(){
     }
     cout << setfill('=') << setw(80) << "" << endl;
     cout << setfill(' ');
-}
-
-// menampilkan detail film
-void tampilkanDetailFilm(film* f) {
-    cout << "\n=== DETAIL FILM ===" << endl;
-    cout << "Judul   : " << f->judul << endl;
-    cout << "Genre   : " << f->genre << endl;
-    cout << "Tanggal : " << f->tanggal << endl;
-    cout << "Harga   : Rp " << f->harga << endl;
-    cout << "Durasi  : " << f->durasi << " menit" << endl;
-    for (int i = 0; i < 3; i++) {
-        if (!f->jadwal[i].empty())
-            cout << f->jadwal[i] << " ";
-    }
-    cout << endl;
 }
 
 // MENU 1 - pesan tiket
@@ -493,6 +526,7 @@ int main(){
             tampilFilm();
                 break;
             case 2: 
+            cariFilm();
                 break;
             case 3: 
             pesanTiket();
