@@ -14,8 +14,9 @@ film *head = NULL;
 
 void simpanFile(){
     FILE *f = fopen("film.txt", "w");
-    if (f == NULL){
-    cout << "File tidak bisa dibuka" << endl;
+    if (f == NULL)
+    {
+        cout << "File tidak bisa dibuka" << endl;
         return;
     }
 
@@ -120,7 +121,38 @@ void sortHargaAsc(){
     
 }
 
-// pesan tiket
+void sortHargaDesc(){
+    if (head == NULL)
+    {
+        cout << "Maaf, film belum tersedia." << endl;
+        return;
+
+        bool swap;
+        film *ptr
+        
+        do
+        {
+            swap = false;
+            ptr = head;
+
+            while (ptr->next != NULL)
+            {
+                if (ptr->harga < ptr->next->harga)
+                {
+                    int tempHarga = ptr->harga;
+                    ptr->harga = ptr->next->harga;
+                    ptr->next->harga = tempHarga;
+                    swap = true;
+                }
+                
+            }
+            
+        } while (swap);
+        
+    }
+    
+}
+
 void tampilFilm(){
     
     if(head == NULL){
@@ -160,12 +192,12 @@ void tampilFilm(){
     cout << setfill('=') << setw(80) << "" << endl;
     cout << setfill(' ');
 }
-\\ menacri film berdasarkan judul
+// menacri film berdasarkan judul
 film* cariFilmByJudul(char judulCari[]) {
     film* temp = head;
     char judulCariLower[100];
 
-    \\ ubah judulCari ke lowercase untuk pencarian 
+    // ubah judulCari ke lowercase untuk pencarian 
 
     char tempJudulLower[100];
     strcpy(judulCariLower, judulCari);
