@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <string.h>
 using namespace std;
 
 struct film
@@ -89,36 +90,28 @@ void keluar(){
 }
 
 void sortHargaAsc(){
-
-    if (head == NULL)
-    {
+    if(head == NULL){
         cout << "Maaf, film belum tersedia." << endl;
         return;
-
-        bool swap;
-        film *ptr;
-
-        do
-        {
-            swap = false;
-            ptr = head;
-            while (ptr->next != NULL)
-            {
-                if (ptr->harga > ptr->next->harga)
-                {
-                    //tukar harganya
-                    int tempHarga = ptr->harga;
-                    ptr->harga = ptr->next->harga;
-                    ptr->next->harga = tempHarga;
-                    swap = true;
-                }
-                ptr = ptr->next;
-            }
-              
-        } while (swap);
-        
     }
-    
+
+    bool swap;
+    film *ptr;
+
+    do 
+    {
+        swap = false;
+        ptr = head;
+        while(ptr->next != NULL){
+            if(ptr->harga > ptr->next->harga){
+                int tempHarga = ptr->harga;
+                ptr->harga = ptr->next->harga;
+                ptr->next->harga = tempHarga;
+                swap = true;
+            }
+            ptr = ptr->next;
+        }
+    } while(swap);
 }
 
 void sortHargaDesc(){
@@ -126,31 +119,59 @@ void sortHargaDesc(){
     {
         cout << "Maaf, film belum tersedia." << endl;
         return;
-
-        bool swap;
-        film *ptr
-        
-        do
-        {
-            swap = false;
-            ptr = head;
-
-            while (ptr->next != NULL)
-            {
-                if (ptr->harga < ptr->next->harga)
-                {
-                    int tempHarga = ptr->harga;
-                    ptr->harga = ptr->next->harga;
-                    ptr->next->harga = tempHarga;
-                    swap = true;
-                }
-                
-            }
-            
-        } while (swap);
-        
     }
-    
+        
+    bool swap;
+    film *ptr;
+        
+    do
+    {
+        swap = false;
+        ptr = head;
+
+        while (ptr->next != NULL)
+        {
+            if (ptr->harga < ptr->next->harga)
+            {
+                int tempHarga = ptr->harga;
+                ptr->harga = ptr->next->harga;
+                ptr->next->harga = tempHarga;
+                swap = true;
+            }
+            ptr = ptr->next;
+        }      
+    } while (swap);
+}
+
+void sortAbjad(){
+    if (head == NULL)
+    {
+        cout << "Maaf, film belum tersedia." << endl;
+        return
+    }
+
+    bool swap;
+    film *ptr;
+
+    do
+    {
+        swap = false;
+        ptr = head;
+
+        while (ptr->next != NULL)
+        {
+            if (strcmp(ptr->judul, ptr->next->judul) > 0) //cmp buat konvert char jadi string (membandingkan)
+            {
+                char tempJudul[100];
+                //buat membandingkan
+                strcpy(tempJudul, ptr->judul);
+                strcpy(ptr->judul, ptr->next->judul);
+                strcpy(ptr->next->judul, tempJudul);
+                swap = true;
+            }
+            ptr = ptr->next;
+        }
+    } while (swap);
 }
 
 void tampilFilm(){
