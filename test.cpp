@@ -10,7 +10,21 @@ struct film
     string jadwal[3];
     film* next;
 };
+struct pemesanan {
+	
+    char namaPemesan[100];
+    char judulFilm[100];
+    char tanggalTayang[50];
+    char jamTayang[50];
+    string kursi;       
+    int jumlahTiket; 
+    int totalHarga;
+    pemesanan* next;
+};
 
+film *head = NULL;
+pemesanan* headRiwayat = NULL;
+pemesanan* tail = NULL;
 film *head = NULL;
 
 void loadFile(){
@@ -48,6 +62,8 @@ void toLowerStr(char *str){
     for (int i = 0; str[i]; i++)
         str[i] = tolower((unsigned char)str[i]);   
 }
+
+void simpanFile();
 
 void keluar(){
     char pilih;
@@ -188,41 +204,27 @@ void detailFilm(film* f){
     cout << setfill(' ');
 }
 
-void cariFilm(){
+	film* cariFilm(char* judul){
     char cariJudul[100];
-
-    cout << "Masukkan judul film : ";
     cin.ignore();
     cin.getline(cariJudul, 100);
-
-    film* temp = head;
-    bool found = false;
-
     toLowerStr(cariJudul);
 
-    while (temp != NULL)
-    {
+    film* temp = head;
+    while (temp != NULL) {
         char judulTemp[100];
         strcpy(judulTemp, temp->judul);
         toLowerStr(judulTemp);
 
-        if (strcmp(judulTemp, cariJudul) == 0)
-        {
-            found = true;
-            break;
+        if (strcmp(judulTemp, cariJudul) == 0) {
+            return temp;  
         }
         temp = temp->next;
     }
-    
-    if (found)
-    {
-        cout << "Film ditemukan!" << endl;
-        detailFilm(temp);
-
-    } else {
-        cout << "Sorry, film " << cariJudul << " tidak ditemukan." << endl;
-    }
+    return NULL;  
 }
+    
+    
 
 void tampilFilm(){
     
@@ -324,8 +326,10 @@ void pesanTiket() {
     pemesanan *pesananBaru = new pemesanan;
     
     cout << "\n=== DATA PEMESAN ===" << endl;
-    cout << "Nama   : ";
-    cin.getline(pesananBaru->nama, 100);
+	cout << "Nama    : ";
+	cin.ignore(); 	
+	getline(cin, pesananBaru->namaPemesan);
+
 
     // pilih jadwal
     cout << "\nPilih jadwal tayang: ";
@@ -375,7 +379,8 @@ cout << "\n========================================" << endl;
 cout << "              STRUK PEMESANAN            " << endl;
 cout << "==========================================" << endl;
 cout << " Nama Pemesan : " << pesananBaru->namaPemesan << endl;
-cout << " Judul Film   : " << filmDipilih->judulFilm << endl;
+cout << "  Judul Film     : " << filmDipilih->judul << endl;
+
 cout << "Tanggal Tayang : " << pesananBaru->tanggalTayang << endl;
 cout << "Jam Tayang     : " << pesananBaru->jamTayang << endl;
 cout << "Jumlah Tiket   : " << pesananBaru->jumlahTiket << endl;
@@ -397,43 +402,52 @@ void lihatRiwayatPemesanan() {
     }
 
     pemesanan* temp = headRiwayat;
-    int no = 1;
+        int no = 1;
     while (temp != NULL) {
-        cout << no++ << ". " << temp->namaPemesan << " - " << temp->judulFilm 
-             << " (" << temp->tanggalTayang << " " << temp->jamTayang << ") - "
+        cout << no++ << ". " << temp->namaPemesan << " - " << temp->judulFilm
+             << " (" << temp->tanggalTayang << " ~ " << temp->jamTayang << " ) - "
              << temp->jumlahTiket << " tiket - Rp " << temp->totalHarga << endl;
         temp = temp->next;
+    } 
+
+    // // table riwayat
+    cout << "--------------------------------------------------------------------------------" << endl;
+    cout << "| No | Nama Pemesan     | Judul Film      | Jml | Kursi | Tanggal | Jam | Total Harga |" << endl;
+    cout << "--------------------------------------------------------------------------------" << endl;
+    
+    pemesanan* temp2 = headRiwayat; 
+    int no2 = 1;
+
+    while (temp2 != NULL) {
+               cout << "| " << setw(2) << left << no2++
+             << " | " << setw(16) << left << temp2->namaPemesan
+             << " | " << setw(15) << left << temp2->judulFilm
+             << " | " << setw(3) << left << temp2->jumlahTiket
+             << " | " << setw(5) << left << temp2->kursi
+             << " | " << setw(7) << left << temp2->tanggalTayang
+             << " | " << setw(3) << left << temp2->jamTayang
+             << " | Rp " << setw(10) << left << temp2->totalHarga << " |" << endl;
+
+        temp2 = temp2->next;
     }
-}
+    cout << "--------------------------------------------------------------------------------" << endl;
 
-// table riwayat
- cout << "----------------------------------------------------------------------------------------------------------" << endl;
-    cout << "| No | Nama Pemesan     | Judul Film                | Jml | Kursi | Tanggal      | Jam    | Total Harga |" << endl;
-    cout << "----------------------------------------------------------------------------------------------------------" << endl;
-    pemesanan* temp = headRiwayat;
-    int no = 1;
-
-    while (temp != NULL) {
-        printf("| %-2d | %-15s | %-25s | %-3d | %-5s | %-12s | %-6s | Rp %-10d |\n",
-               no++, temp->namaPemesan, temp->judulFilm, temp->jumlahTiket, temp->kursi,
-               temp->tanggalTayang, temp->jamTayang, temp->totalHarga);
-        temp = temp->next;
-    }
-     cout << "----------------------------------------------------------------------------------------------------------" << endl;
-
-    // hitung total pendapatan
+    // // hitung total pendapatan
     int totalPendapatan = 0;
     int totalTiketTerjual = 0;
-    temp = headRiwayat;
-    while (temp != NULL) {
-        totalPendapatan += temp->totalHarga;
-        totalTiketTerjual += temp->jumlahTiket;
-        temp = temp->next;
+    temp2 = headRiwayat;
+    
+    while (temp2 != NULL) {
+        totalPendapatan += temp2->totalHarga;
+        totalTiketTerjual += temp2->jumlahTiket;
+        temp2 = temp2->next;
     }
 
-    cout << "\nTotal Pemesanan : " << (no - 1) << " kali " << endl;
-    cout << "Total Tiket Terjual : " << totalTiketTerjual << " tiket" << endl;
-    cout << "Total Pendapatan : Rp " << totalPendapatan << endl;
+    cout << "\nTotal Pemesanan: " << (no2 - 1) << " kali " << endl;
+    cout << "Total Tiket Terjual: " << totalTiketTerjual << " tiket " << endl;
+    cout << "Total Pendapatan: Rp " << totalPendapatan << endl;
+
+} // <-- TANDA KURUNG TUTUP PINDAH KE SINI (Menutup fungsi utama)
 
     // Load Riwayat
     void simpanRiwayatKeFile() {
@@ -465,18 +479,18 @@ fclose(f);
 
         while (true) {
             pemesanan* pesananBaru = new pemesanan;
-            if (fscanf(f, "%[^|]|%[^|]|%[^|]|%[^|]|%d|%d|%[^\n]\n",
-                    pesananBaru->namaPemesan,
-                    pesananBaru->judulFilm,
-                    pesananBaru->tanggalTayang,
-                    pesananBaru->jamTayang,
-                    &pesananBaru->totalHarga) != 5) 
-            if (result != 7) {
-            delete pesananBaru;
-            break;
-        }
+           int result = fscanf(f, "%[^|]|%[^|]|%[^|]|%[^|]|%d\n",
+                        pesananBaru->namaPemesan,
+                        pesananBaru->judulFilm,
+                        pesananBaru->tanggalTayang,
+                        pesananBaru->jamTayang,
+                        &pesananBaru->totalHarga);
+			if (result != 5) {
+				delete pesananBaru;
+			break;
+}
+           
         
-        pesananBaru->jamTayang = string(jamTayangTemp);
         pesananBaru->next = NULL;
         
         if (headRiwayat == NULL) {
@@ -516,9 +530,18 @@ int main(){
             case 1: 
             tampilFilm();
                 break;
-            case 2: 
-            cariFilm();
-                break;
+             
+            case 2: {
+    film* hasil = cariFilm(NULL);
+    if (hasil != NULL) {
+        cout << "Film ditemukan!" << endl;
+        detailFilm(hasil);
+    } else {
+        cout << "Film tidak ditemukan." << endl;
+    }
+    break;
+}
+                
             case 3: 
             
                 break;
