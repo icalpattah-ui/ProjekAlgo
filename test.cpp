@@ -13,30 +13,6 @@ struct film
 
 film *head = NULL;
 
-void simpanFile(){
-    FILE *f = fopen("film.txt", "r");
-    if (f == NULL)
-    {
-        cout << "File tidak bisa dibuka" << endl;
-        return;
-    }
-
-    film *temp = head;
-
-    while (temp != NULL){
-        fprintf(f, "%s|%s|%s|%d|%d\n",
-            temp->judul,
-            temp->genre,
-            temp->tanggal,
-            temp->harga,
-            temp->durasi);
-        temp = temp->next;
-    }
-    fclose(f);
-    cout << "Data berhasil disimpan ke file" << endl;
-}
-
-
 void loadFile(){
     FILE *f = fopen("film.txt", "r");
     
@@ -86,7 +62,32 @@ void keluar(){
         exit(0);
     } else {
         cout << "Kembali ke menu utama" << endl;
+        return;
     }
+}
+
+void swapFilm(film *a, film *b){
+
+    char judul[100], genre[10], tanggal[50];
+    int harga, durasi;
+
+    strcpy(judul, a->judul);
+    strcpy(genre, a->genre);
+    strcpy(tanggal, a->tanggal);
+    harga = a->harga;
+    durasi = a->durasi;
+
+    strcpy(a->judul, b->judul);
+    strcpy(a->genre, b->genre);
+    strcpy(a->tanggal, b->tanggal);
+    a->harga = b->harga;
+    a->durasi = b->durasi;
+
+    strcpy(b->judul, judul);
+    strcpy(b->genre, genre);
+    strcpy(b->tanggal, tanggal);
+    b->harga = harga;
+    b->durasi = durasi;
 }
 
 void sortHargaAsc(){
@@ -104,9 +105,7 @@ void sortHargaAsc(){
         ptr = head;
         while(ptr->next != NULL){
             if(ptr->harga > ptr->next->harga){
-                int tempHarga = ptr->harga;
-                ptr->harga = ptr->next->harga;
-                ptr->next->harga = tempHarga;
+                swapFilm(ptr, ptr->next);
                 swap = true;
             }
             ptr = ptr->next;
@@ -133,9 +132,7 @@ void sortHargaDsc(){
         {
             if (ptr->harga < ptr->next->harga)
             {
-                int tempHarga = ptr->harga;
-                ptr->harga = ptr->next->harga;
-                ptr->next->harga = tempHarga;
+                swapFilm(ptr, ptr->next);
                 swap = true;
             }
             ptr = ptr->next;
@@ -162,11 +159,7 @@ void sortAbjad(){
         {
             if (strcmp(ptr->judul, ptr->next->judul) > 0) //cmp buat konvert char jadi string (membandingkan)
             {
-                char tempJudul[100];
-                //buat membandingkan
-                strcpy(tempJudul, ptr->judul);
-                strcpy(ptr->judul, ptr->next->judul);
-                strcpy(ptr->next->judul, tempJudul);
+                swapFilm(ptr, ptr->next);
                 swap = true;
             }
             ptr = ptr->next;
@@ -239,26 +232,23 @@ void tampilFilm(){
     }
 
     int daftarFilm;
-    cout << "+===== Urutkan menurut ======+" << endl;
-    cout << "1. -->> Termahal >>>" << endl;
-    cout << "2. <<< Termurah <<--" << endl;
+    cout << "========= Urutkan menurut ========" << endl;
+    cout << "1. Termahal " << endl;
+    cout << "2. Termurah " << endl;
     cout << "3. Judul Film (A-Z)" << endl;
-    cout << "4. Tanpa urutan" << endl;
     cout << "Pilih : ";
     cin >> daftarFilm;
 
     switch (daftarFilm)
     {
     case 1:
-        sortHargaAsc();
+        sortHargaDsc();
         break;
     case 2:
-        sortHargaDsc();
+        sortHargaAsc();
         break;
     case 3:
         sortAbjad();
-        break;
-    case 4:
         break;
     default:
         cout << "Maaf, pilihan tidak ada silahkan masukkan pilihan yang benar" << endl;
@@ -305,11 +295,11 @@ void pesanTiket() {
     cout << "========================================" << endl;
 
 // tampilkan daftar film
-    tampilkanDaftarFilm();
+    tampilFilm();
 
     if(head == NULL) return;
 
-    char if (head == NULL) {
+    if (head == NULL) {
         cout << "Tidak bisa memesan karena belum ada film.\n";
         return;
     }
@@ -317,10 +307,10 @@ void pesanTiket() {
     // pilih film
     char pilihJudul[100];
     cout << "Masukkan judul film yang ingin dipesan: ";
-    cin.get.ignore();
+    cin.ignore();
     cin.getline(pilihJudul, 100);
 
-    film* filmDipilih = cariFilmByJudul(pilihJudul);
+    film* filmDipilih = cariFilm(pilihJudul);
 
     if (filmDipilih == NULL) {
         cout << "Film dengan judul '" << pilihJudul << "' tidak ditemukan.\n";
@@ -328,7 +318,7 @@ void pesanTiket() {
     }
 
     // tampilkan detail film
-    tampilkanDetailFilm(filmDipilih);
+    ta(filmDipilih);
 
     // input data pemesan
     pemesanan *pesananBaru = new pemesanan;
@@ -518,6 +508,7 @@ int main(){
         cout << "+========================================+" << endl;
         cout << " Pilih menu : ";
         cin >> pilih;
+        cout << endl;
 
         
         switch (pilih)
@@ -529,10 +520,10 @@ int main(){
             cariFilm();
                 break;
             case 3: 
-            pesanTiket();
+            
                 break;
             case 4:
-            loadRiwayatDariFile();
+            
                 break;
             case 5: keluar();
             break;
@@ -541,7 +532,7 @@ int main(){
             cout << "Maaf, pilihan tidak ada silahkan masukkan pilihan yang benar" << endl;
             break;
         }
-    } while (pilih != 5);
+    } while (true);
 
     return 0;
 }
