@@ -114,7 +114,7 @@ void sortHargaAsc(){
     } while(swap);
 }
 
-void sortHargaDesc(){
+void sortHargaDsc(){
     if (head == NULL)
     {
         cout << "Maaf, film belum tersedia." << endl;
@@ -147,7 +147,7 @@ void sortAbjad(){
     if (head == NULL)
     {
         cout << "Maaf, film belum tersedia." << endl;
-        return
+        return;
     }
 
     bool swap;
@@ -179,6 +179,32 @@ void tampilFilm(){
     if(head == NULL){
         cout << "Maaf, sedang maintence belum ada film yang tersedia";
         return;
+    }
+
+    int daftarFilm;
+    cout << "+======== Urutkan menurut =========+" << endl;
+    cout << "-->> Termahal >>>" << endl;
+    cout << "<<< Termurah <<--" << endl;
+    cout << "3. Judul Film (A-Z)" << endl;
+    cout << "4. Tanpa urutan" << endl;
+    cout << "Pilih : ";
+    cin >> daftarFilm;
+
+    switch (daftarFilm)
+    {
+    case 1:
+        sortHargaAsc();
+        break;
+    case 2:
+        sortHargaDsc();
+        break;
+    case 3:
+        sortAbjad();
+    case 4:
+        break;
+    default:
+        cout << "Maaf, pilihan tidak ada silahkan masukkan pilihan yang benar" << endl;
+        break;
     }
 
     cout << setfill('=') << setw(80) << "" << endl;
@@ -491,7 +517,7 @@ int main(){
             break;
         
         default:
-          cout << " Maaf, pilihan tidak ada silahkan masukkan pilihan yang benar" << endl;
+            cout << "Maaf, pilihan tidak ada silahkan masukkan pilihan yang benar" << endl;
             break;
         }
     } while (pilih != 5);
