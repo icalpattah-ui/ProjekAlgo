@@ -109,7 +109,7 @@ void keluar() {
 
     if (pilih == 'y' || pilih == 'Y') {
         simpanFile();
-        cout << "Terima kasih telah memesan tiket\n";
+        cout << "Terima kasih telah memesan tiket, silahkan datang lembali\n";
         exit(0);
     }
 }
